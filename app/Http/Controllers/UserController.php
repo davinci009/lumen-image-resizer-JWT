@@ -17,7 +17,7 @@ class UserController extends Controller
     }
 
     public function index()
-    {git 
+    {
         $users = User::all();
         return Response()->json($users, 200);        
     }

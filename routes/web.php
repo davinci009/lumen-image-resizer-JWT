@@ -26,6 +26,7 @@ $router->group(['middleware' => ['auth']], function () use ($router){
 });
 
 $router->post('/users', ['uses' => 'UserController@store']);
-$router->post('/login', ['uses' => 'UserController@getTokens']);
+
+$router->post('/login', ['uses' => 'AuthController@login']);
 
 $router->post('/upload', ['uses' => 'ImagesController@make']);
