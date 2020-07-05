@@ -37,8 +37,8 @@ class AuthServiceProvider extends ServiceProvider
             }
         });
     }
-    
-    public function login(Request $request)
+
+    /*public function login(Request $request)
     {
           //validate incoming request 
         $this->validate($request, [
@@ -53,5 +53,5 @@ class AuthServiceProvider extends ServiceProvider
         }
 
         return $this->respondWithToken($token);
-    }
+    }*/
 }
