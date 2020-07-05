@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Support\Str;
 
 /*
@@ -14,7 +15,17 @@ use Illuminate\Support\Str;
 */
 
 $router->get('/', function () use ($router) {
+    //factory(User::class)->create();
+
     return $router->app->version();
+
 });
 
-$router->get('/users', ['uses' => 'UserController@index']);
+$router->group(['middleware' => ['auth']], function () use ($router){
+    $router->get('/users', ['uses' => 'UserController@index']);
+});
+
+$router->post('/users', ['uses' => 'UserController@store']);
+$router->post('/login', ['uses' => 'UserController@getTokens']);
+
+$router->post('/upload', ['uses' => 'ImagesController@make']);
