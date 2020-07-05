@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -16,7 +17,7 @@ class UserController extends Controller
     }
 
     public function index()
-    {
+    {git 
         $users = User::all();
         return Response()->json($users, 200);        
     }
@@ -34,7 +35,8 @@ class UserController extends Controller
             $user = User::create([
                 'name' => $data['name'], 
                 'email' => $data['email'], 
-                'password' => Hash::make($data['password'])
+                'password' => Hash::make($data['password']),
+                'api_token' => Str::random(60)
             ]);
 
             return Response()->json([
