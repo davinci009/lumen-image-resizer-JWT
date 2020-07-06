@@ -18,6 +18,12 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 $router->get('/', function () use ($router) {
     //factory(User::class)->create();
     //return $router->app->version();
+    //return dirname(__DIR__, 1).'\\storage\\';
+
+    // $img = Image::make('foo.jpg')->resize(300, 200);
+    // return $img->response('jpg');
+
+    //return $root = storage_path();
 
     //return $validation = JWTAuth::attempt(['email' => 'josejavierjesus2@gmail.com', 'password' => 'secret']);
     //return $user = JWTAuth::parseToken()->authenticate(); //get the authenticate user

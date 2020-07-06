@@ -23,6 +23,7 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
+
 $app->withFacades();
 
 // start with facades switched on
@@ -101,6 +102,8 @@ $app->routeMiddleware([
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+$app->register(Intervention\Image\ImageServiceProvider::class);
+$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 
 if (!class_exists('JWTAuth')) {
     class_alias('Tymon\JWTAuth\Facades\JWTAuth', 'JWTAuth');
@@ -108,6 +111,14 @@ if (!class_exists('JWTAuth')) {
 
 if (!class_exists('JWTFactory')) {
     class_alias('Tymon\JWTAuth\Facades\JWTFactory', 'JWTFactory');
+}
+
+if (!class_exists('Image')) {
+    class_alias('Intervention\Image\Facades\Image', 'Image');
+}
+
+if (!class_exists('Storage')) {
+    class_alias('Illuminate\Support\Facades\Storage', 'Storage');
 }
 
 /*
@@ -120,6 +131,7 @@ if (!class_exists('JWTFactory')) {
 | can respond to, as well as the controllers that may handle them.
 |
 */
+$app->configure('filesystems');
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
