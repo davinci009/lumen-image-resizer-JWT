@@ -32,23 +32,38 @@ class ImagesController extends Controller
             $dimensions = getimagesize($file);
             $name = $file->getClientOriginalName();
             
-            $time_id = Carbon::now()->format('dmYhis');
+            
             $F_name = pathinfo($name, PATHINFO_FILENAME);
             $filteredName = preg_replace('/([^a-zA-Z0-9])/', '', $F_name);
             $F_extension = pathinfo($name, PATHINFO_EXTENSION);
-            $file_name = $filteredName . $time_id . '.' . $F_extension;
-
+            
             $toDoJobs = [
-                ['half' => 2], ['third' => 3], ['quarter' => 4], ['ratio' => ['210', '16:9']]
+                'half' => 2, 'third' => 3, 'quarter' => 4
             ];
             
+            $urls = [];
+            
+            foreach ($toDoJobs as $key => $value){
+
+                $time_id = Carbon::now()->format('dmYhis');
+                $file_name = $filteredName.$time_id.'_'.$key.'.'.$F_extension;
+
+                $new_file = Image::make($file)->resize(($dimensions[0] / $value), ($dimensions[1] / $value), function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+
+                $uploaded_file = Storage::disk('public')->put($file_name, $new_file->stream());
+                $urls[$key] = Storage::url($file_name);
+            }
+            
+            return $urls;
+
             $new_file = Image::make($file)->resize(($dimensions[0] / 3), ($dimensions[1] / 3), function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             });
 
-            Storage::disk('public')->put($file_name, $new_file->save($file_name));
-            return 1;
 
             $path = $request->file('file')->store('default', 'public'); //carpeta, disco
             $file =  Storage::get('/public/' . $path); //storage/app/ . /public/
