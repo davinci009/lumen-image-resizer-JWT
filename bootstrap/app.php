@@ -23,7 +23,14 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
+
 $app->withFacades();
+
+// start with facades switched on
+// $app->withFacades(true, [
+//     'Tymon\JWTAuth\Facades\JWTAuth' => 'JWTAuth',
+//     'facade' => 'alias',
+// ]);
 
 $app->withEloquent();
 
@@ -90,10 +97,31 @@ $app->routeMiddleware([
 | totally optional, so you are not required to uncomment this line.
 |
 */
+$app->configure('filesystems');
 
 // $app->register(App\Providers\AppServiceProvider::class);
-$app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
+$app->register(App\Providers\AuthServiceProvider::class);
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+$app->register(Intervention\Image\ImageServiceProvider::class);
+$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
+$app->register(App\Providers\DropboxServiceProvider::class);
+
+if (!class_exists('JWTAuth')) {
+    class_alias('Tymon\JWTAuth\Facades\JWTAuth', 'JWTAuth');
+}
+
+if (!class_exists('JWTFactory')) {
+    class_alias('Tymon\JWTAuth\Facades\JWTFactory', 'JWTFactory');
+}
+
+if (!class_exists('Image')) {
+    class_alias('Intervention\Image\Facades\Image', 'Image');
+}
+
+if (!class_exists('Storage')) {
+    class_alias('Illuminate\Support\Facades\Storage', 'Storage');
+}
 
 /*
 |--------------------------------------------------------------------------
