@@ -97,6 +97,7 @@ $app->routeMiddleware([
 | totally optional, so you are not required to uncomment this line.
 |
 */
+$app->configure('filesystems');
 
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
@@ -104,6 +105,7 @@ $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Intervention\Image\ImageServiceProvider::class);
 $app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
+$app->register(App\Providers\DropboxServiceProvider::class);
 
 if (!class_exists('JWTAuth')) {
     class_alias('Tymon\JWTAuth\Facades\JWTAuth', 'JWTAuth');
@@ -131,7 +133,6 @@ if (!class_exists('Storage')) {
 | can respond to, as well as the controllers that may handle them.
 |
 */
-$app->configure('filesystems');
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
